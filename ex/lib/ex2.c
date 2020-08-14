@@ -1,7 +1,13 @@
-#include <ex2.h>
-#include <stdio.h>
 
-void write()
+#define _DEFAULT_SOURCE
+#include <unistd.h>
+#include <sys/syscall.h>
+
+#define syscall_no 4
+
+ssize_t write (int fd, const void *buf, size_t n)
 {
-    printf("Hello\n");
+  int b;
+  b = syscall (syscall_no, fd, buf, n);
+  return b;
 }

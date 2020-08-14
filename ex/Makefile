@@ -12,10 +12,10 @@ BIN = bin
 all: libex2.so ex1
 
 ex1: $(BIN)/ex1.o libex2.so
-	$(LD) -o $@ $^ $(LDFLAGS) -L.
+	$(LD) -Wl,-rpath=. -Wl,-rpath=../lib -o $@ $^ $(LDFLAGS) -L.
 
 $(BIN)/ex1.o: $(SRC)/ex1.c | $(BIN)
-	$(CC) -c -o $@ $< $(CFLAGS) -I$(INCLUDE)
+	$(CC) -c -o $@ $<  $(CFLAGS) -I$(INCLUDE)
 
 libex2.so: $(BIN)/ex2.o | $(BIN)
 	$(AR) $(ARFLAGS) -o $@ $^
@@ -27,9 +27,12 @@ $(BIN):
 	mkdir $@
 
 install: libex2.so $(LIB)/ex2.h ex1
+	install -d $(prefix)/usr/bin
+	install -d $(prefix)/usr/lib
+	install -d $(prefix)/usr/include
 	cp libex2.so $(prefix)/usr/lib/.
 	cp $(LIB)/ex2.h $(prefix)/usr/include/.
-	cp ex1 $(prefix)/usr/bin/.
+	cp ex1 $(prefix)/usr/bin/
 
 uninstall:
 	rm -f $(prefix)/usr/lib/libex2.so

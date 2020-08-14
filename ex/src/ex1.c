@@ -2,7 +2,7 @@
 
 int main()
 {
-    write();
-
-    return 0;
+  write(0, "Hello\n", 6);
+  
+  return 0;
 }
